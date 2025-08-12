@@ -62,7 +62,8 @@ The library provides automatic i18n routing through two main components:
 1. **Vite Plugin** (`src/plugin.ts`)
    - Provides development server middleware that intercepts requests
    - Detects user language from cookies or Accept-Language headers
-   - Redirects root path (`/`) to appropriate locale (`/zh/` or `/en/`)
+   - Supports full language-region codes (e.g., `zh-CN`, `en-US`) with intelligent fallback
+   - Redirects root path (`/`) to appropriate locale (`/zh-CN/` or `/en-US/`)
    - Skips processing for static assets, Vite internals (`/@`, `/__`), and VitePress internals (`/.vitepress/`)
 
 2. **VitePress Theme Enhancement** (`src/vitepress/index.ts`)
@@ -90,12 +91,18 @@ The library provides automatic i18n routing through two main components:
    - Browser language (Accept-Language/navigator.language)
    - Default locale from config
 
-2. **Path Handling:**
+2. **Language Matching Strategy:**
+   - **Exact match**: `zh-CN` matches `zh-CN` exactly
+   - **Language family match**: `zh-HK` or `zh-TW` falls back to `zh-CN` if `zh-TW` is not configured
+   - **Simple language match**: `zh` matches `zh-CN` if only `zh-CN` is configured
+   - This allows supporting specific regions while providing intelligent fallbacks
+
+3. **Path Handling:**
    - The middleware must skip `.vitepress` paths to avoid breaking VitePress's module loading
-   - Paths like `/en` are redirected to `/en/` (with trailing slash)
+   - Paths like `/en-US` are redirected to `/en-US/` (with trailing slash)
    - Static assets and Vite special paths are passed through unchanged
 
-3. **Minimal Surface Area:**
+4. **Minimal Surface Area:**
    - After recent cleanup, only essential files remain:
      - `src/plugin.ts` - Main plugin implementation
      - `src/core/router.ts` - Route parsing logic
@@ -113,8 +120,8 @@ The demo site uses the library in two places:
    vite: {
      plugins: [
        vitepressAutoI18nRouter({
-         locales: ['zh', 'en'],
-         defaultLocale: 'zh'
+         locales: ['zh-CN', 'en-US'],
+         defaultLocale: 'zh-CN'
        })
      ]
    }
@@ -139,7 +146,7 @@ The demo site uses the library in two places:
 
 1. **MIME Type Errors in Development:**
    - Symptom: "Expected a JavaScript module but got text/html"
-   - Cause: VitePress requests like `/en/.vitepress/cache/deps/...` being intercepted
+   - Cause: VitePress requests like `/en-US/.vitepress/cache/deps/...` being intercepted
    - Solution: Middleware skips any path containing `/.vitepress/`
 
 2. **Production Build:**

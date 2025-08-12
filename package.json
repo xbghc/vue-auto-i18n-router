@@ -1,0 +1,17 @@
+{
+  "name": "vue-auto-i18n-router-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Monorepo for vitepress-auto-i18n-router",
+  "scripts": {
+    "dev": "pnpm --filter demo dev",
+    "build": "pnpm --filter vitepress-auto-i18n-router build",
+    "docs:dev": "pnpm --filter demo docs:dev",
+    "docs:build": "pnpm --filter demo docs:build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.16.5",
+    "typescript": "~5.8.0"
+  }
+}

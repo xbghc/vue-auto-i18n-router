@@ -1,9 +1,22 @@
 {
-  "name": "vue-auto-i18n-router-monorepo",
+  "name": "vue-auto-i18n-router",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Monorepo for vitepress-auto-i18n-router",
+  "description": "Monorepo for VitePress Auto i18n Router - Automatic language detection and routing for VitePress",
+  "author": {
+    "name": "xbghc",
+    "email": "ghm20191606@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xbghc/vue-auto-i18n-router.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xbghc/vue-auto-i18n-router/issues"
+  },
+  "homepage": "https://github.com/xbghc/vue-auto-i18n-router#readme",
+  "license": "MIT",
   "scripts": {
     "dev": "pnpm --filter demo dev",
     "build": "pnpm --filter vitepress-auto-i18n-router build",

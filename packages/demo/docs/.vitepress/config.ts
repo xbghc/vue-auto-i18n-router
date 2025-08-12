@@ -45,7 +45,7 @@ export default defineConfig({
           ]
         },
         editLink: {
-          pattern: 'https://github.com/your-username/vitepress-auto-i18n-router/edit/main/packages/demo/docs/:path',
+          pattern: 'https://github.com/xbghc/vue-auto-i18n-router/edit/main/packages/demo/docs/:path',
           text: '在 GitHub 上编辑此页'
         },
         footer: {
@@ -107,7 +107,7 @@ export default defineConfig({
           ]
         },
         editLink: {
-          pattern: 'https://github.com/your-username/vitepress-auto-i18n-router/edit/main/packages/demo/docs/:path',
+          pattern: 'https://github.com/xbghc/vue-auto-i18n-router/edit/main/packages/demo/docs/:path',
           text: 'Edit this page on GitHub'
         },
         footer: {
@@ -125,7 +125,7 @@ export default defineConfig({
     
     // Social links (global)
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/your-username/vitepress-auto-i18n-router' }
+      { icon: 'github', link: 'https://github.com/xbghc/vue-auto-i18n-router' }
     ],
     
     // Search (global)

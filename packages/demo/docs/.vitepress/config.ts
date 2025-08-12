@@ -36,9 +36,15 @@ export default defineConfig({
               ]
             },
             {
-              text: '进阶',
+              text: '核心概念',
               items: [
-                { text: '配置选项', link: '/zh/guide/configuration' },
+                { text: '主题集成', link: '/zh/guide/theme-integration' },
+                { text: '配置选项', link: '/zh/guide/configuration' }
+              ]
+            },
+            {
+              text: '部署',
+              items: [
                 { text: '部署指南', link: '/zh/guide/deployment' }
               ]
             }
@@ -98,10 +104,16 @@ export default defineConfig({
               ]
             },
             {
-              text: 'Advanced',
+              text: 'Core Concepts',
               items: [
-                { text: 'Configuration', link: '/en/guide/configuration' },
-                { text: 'Deployment', link: '/en/guide/deployment' }
+                { text: 'Theme Integration', link: '/en/guide/theme-integration' },
+                { text: 'Configuration', link: '/en/guide/configuration' }
+              ]
+            },
+            {
+              text: 'Deployment',
+              items: [
+                { text: 'Deployment Guide', link: '/en/guide/deployment' }
               ]
             }
           ]

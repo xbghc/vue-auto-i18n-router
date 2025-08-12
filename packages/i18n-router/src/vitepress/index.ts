@@ -44,10 +44,26 @@ const EnhancedTheme: Theme = {
         if (savedLocale && locales.includes(savedLocale)) {
           targetLocale = savedLocale
         } else {
-          // 2. Check browser language
-          const browserLang = (navigator.language || '').toLowerCase().split('-')[0]
-          if (browserLang && locales.includes(browserLang)) {
-            targetLocale = browserLang
+          // 2. Check browser language with intelligent matching
+          const browserLang = (navigator.language || '').replace('_', '-')
+          
+          // Try exact match first (e.g., zh-CN matches zh-CN)
+          const exactMatch = locales.find(l => l.toLowerCase() === browserLang.toLowerCase())
+          if (exactMatch) {
+            targetLocale = exactMatch
+          } else {
+            // Try language family match (e.g., zh-HK matches zh-TW)
+            const langPrefix = browserLang.toLowerCase().split('-')[0]
+            const familyMatch = locales.find(l => l.toLowerCase().startsWith(langPrefix + '-'))
+            if (familyMatch) {
+              targetLocale = familyMatch
+            } else {
+              // Try simple language match (e.g., zh matches zh)
+              const simpleMatch = locales.find(l => l.toLowerCase() === langPrefix)
+              if (simpleMatch) {
+                targetLocale = simpleMatch
+              }
+            }
           }
         }
         

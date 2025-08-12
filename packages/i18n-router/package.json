@@ -33,9 +33,25 @@
     "i18n",
     "router",
     "internationalization",
-    "vue"
+    "vue",
+    "vite-plugin",
+    "auto-routing",
+    "multilingual",
+    "language-detection"
   ],
-  "author": "",
+  "author": {
+    "name": "xbghc",
+    "email": "ghm20191606@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xbghc/vue-auto-i18n-router.git",
+    "directory": "packages/i18n-router"
+  },
+  "bugs": {
+    "url": "https://github.com/xbghc/vue-auto-i18n-router/issues"
+  },
+  "homepage": "https://github.com/xbghc/vue-auto-i18n-router/tree/main/packages/i18n-router#readme",
   "license": "MIT",
   "peerDependencies": {
     "vite": "^5.0.0 || ^6.0.0 || ^7.0.0",

@@ -10,14 +10,14 @@ export default defineConfig({
   
   // Locales configuration for VitePress native language switcher
   locales: {
-    zh: {
+    'zh-CN': {
       label: '简体中文',
       lang: 'zh-CN',
-      link: '/zh/',
+      link: '/zh-CN/',
       themeConfig: {
         nav: [
-          { text: '指南', link: '/zh/guide/intro', activeMatch: '/zh/guide/' },
-          { text: '快速开始', link: '/zh/guide/getting-started' },
+          { text: '指南', link: '/zh-CN/guide/intro', activeMatch: '/zh-CN/guide/' },
+          { text: '快速开始', link: '/zh-CN/guide/getting-started' },
           {
             text: '相关链接',
             items: [
@@ -27,25 +27,25 @@ export default defineConfig({
           }
         ],
         sidebar: {
-          '/zh/guide/': [
+          '/zh-CN/guide/': [
             {
               text: '开始',
               items: [
-                { text: '介绍', link: '/zh/guide/intro' },
-                { text: '快速开始', link: '/zh/guide/getting-started' }
+                { text: '介绍', link: '/zh-CN/guide/intro' },
+                { text: '快速开始', link: '/zh-CN/guide/getting-started' }
               ]
             },
             {
               text: '核心概念',
               items: [
-                { text: '主题集成', link: '/zh/guide/theme-integration' },
-                { text: '配置选项', link: '/zh/guide/configuration' }
+                { text: '主题集成', link: '/zh-CN/guide/theme-integration' },
+                { text: '配置选项', link: '/zh-CN/guide/configuration' }
               ]
             },
             {
               text: '部署',
               items: [
-                { text: '部署指南', link: '/zh/guide/deployment' }
+                { text: '部署指南', link: '/zh-CN/guide/deployment' }
               ]
             }
           ]
@@ -78,14 +78,14 @@ export default defineConfig({
         externalLinkIcon: true
       }
     },
-    en: {
+    'en-US': {
       label: 'English', 
       lang: 'en-US',
-      link: '/en/',
+      link: '/en-US/',
       themeConfig: {
         nav: [
-          { text: 'Guide', link: '/en/guide/intro', activeMatch: '/en/guide/' },
-          { text: 'Quick Start', link: '/en/guide/getting-started' },
+          { text: 'Guide', link: '/en-US/guide/intro', activeMatch: '/en-US/guide/' },
+          { text: 'Quick Start', link: '/en-US/guide/getting-started' },
           {
             text: 'Resources',
             items: [
@@ -95,25 +95,25 @@ export default defineConfig({
           }
         ],
         sidebar: {
-          '/en/guide/': [
+          '/en-US/guide/': [
             {
               text: 'Getting Started',
               items: [
-                { text: 'Introduction', link: '/en/guide/intro' },
-                { text: 'Quick Start', link: '/en/guide/getting-started' }
+                { text: 'Introduction', link: '/en-US/guide/intro' },
+                { text: 'Quick Start', link: '/en-US/guide/getting-started' }
               ]
             },
             {
               text: 'Core Concepts',
               items: [
-                { text: 'Theme Integration', link: '/en/guide/theme-integration' },
-                { text: 'Configuration', link: '/en/guide/configuration' }
+                { text: 'Theme Integration', link: '/en-US/guide/theme-integration' },
+                { text: 'Configuration', link: '/en-US/guide/configuration' }
               ]
             },
             {
               text: 'Deployment',
               items: [
-                { text: 'Deployment Guide', link: '/en/guide/deployment' }
+                { text: 'Deployment Guide', link: '/en-US/guide/deployment' }
               ]
             }
           ]
@@ -171,8 +171,8 @@ export default defineConfig({
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh', 'en'],
-        defaultLocale: 'zh',
+        locales: ['zh-CN', 'en-US'],
+        defaultLocale: 'zh-CN',
         localeNames: {
           zh: '简体中文',
           en: 'English'

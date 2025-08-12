@@ -44,11 +44,11 @@ No need to manually configure routes, the plugin handles everything:
 
 Example URL structure:
 ```
-/              → Auto-redirect to /zh/ or /en/
-/zh/           → Chinese homepage
-/zh/guide/     → Chinese guide
-/en/           → English homepage
-/en/guide/     → English guide
+/              → Auto-redirect to /zh-CN/ or /en-US/
+/zh-CN/           → Chinese homepage
+/zh-CN/guide/     → Chinese guide
+/en-US/           → English homepage
+/en-US/guide/     → English guide
 ```
 
 ### 💾 Preference Persistence

@@ -28,8 +28,8 @@ The default language to use when user preference cannot be detected. Must be one
 
 ```typescript
 vitepressAutoI18nRouter({
-  locales: ['zh', 'en'],
-  defaultLocale: 'zh'  // Default to Chinese
+  locales: ['zh-CN', 'en-US'],
+  defaultLocale: 'zh-CN'  // Default to Chinese
 })
 ```
 
@@ -45,7 +45,7 @@ Provides readable display names for each language code. Primarily used for langu
 ```typescript
 vitepressAutoI18nRouter({
   locales: ['zh', 'en', 'ja', 'ko'],
-  defaultLocale: 'zh',
+  defaultLocale: 'zh-CN',
   localeNames: {
     zh: '简体中文',
     en: 'English',
@@ -70,8 +70,8 @@ export default defineConfig({
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh', 'en'],
-        defaultLocale: 'zh'
+        locales: ['zh-CN', 'en-US'],
+        defaultLocale: 'zh-CN'
       })
     ]
   }
@@ -93,14 +93,14 @@ export default defineConfig({
     zh: {
       label: '简体中文',
       lang: 'zh-CN',
-      link: '/zh/',
+      link: '/zh-CN/',
       title: 'My Docs',
       description: 'Project Documentation'
     },
     en: {
       label: 'English',
       lang: 'en-US',
-      link: '/en/',
+      link: '/en-US/',
       title: 'My Docs',
       description: 'Project Documentation'
     },
@@ -118,7 +118,7 @@ export default defineConfig({
     plugins: [
       vitepressAutoI18nRouter({
         locales: ['zh', 'en', 'ja'],
-        defaultLocale: 'zh',
+        defaultLocale: 'zh-CN',
         localeNames: {
           zh: '简体中文',
           en: 'English',
@@ -148,7 +148,7 @@ export default defineConfig({
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh', 'en'],  // Consistent with above keys
+        locales: ['zh-CN', 'en-US'],  // Consistent with above keys
         // ...
       })
     ]
@@ -225,8 +225,8 @@ For TypeScript type hints, import the configuration type:
 import type { I18nRouterConfig } from 'vitepress-auto-i18n-router'
 
 const config: I18nRouterConfig = {
-  locales: ['zh', 'en'],
-  defaultLocale: 'zh',
+  locales: ['zh-CN', 'en-US'],
+  defaultLocale: 'zh-CN',
   localeNames: {
     zh: '简体中文',
     en: 'English'

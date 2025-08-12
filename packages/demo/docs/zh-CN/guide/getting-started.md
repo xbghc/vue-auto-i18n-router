@@ -36,12 +36,12 @@ export default defineConfig({
     zh: {
       label: '简体中文',
       lang: 'zh-CN',
-      link: '/zh/'
+      link: '/zh-CN/'
     },
     en: {
       label: 'English',
       lang: 'en-US', 
-      link: '/en/'
+      link: '/en-US/'
     }
   },
   
@@ -49,8 +49,8 @@ export default defineConfig({
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh', 'en'],
-        defaultLocale: 'zh',
+        locales: ['zh-CN', 'en-US'],
+        defaultLocale: 'zh-CN',
         localeNames: {
           zh: '简体中文',
           en: 'English'
@@ -147,7 +147,7 @@ interface I18nRouterConfig {
 ```typescript
 vitepressAutoI18nRouter({
   locales: ['zh', 'en', 'ja', 'ko'],
-  defaultLocale: 'zh',
+  defaultLocale: 'zh-CN',
   localeNames: {
     zh: '简体中文',
     en: 'English',

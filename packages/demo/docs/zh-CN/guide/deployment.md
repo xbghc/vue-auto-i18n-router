@@ -114,19 +114,19 @@ Netlify 提供了出色的静态站点托管服务，支持自动部署。
 # 优化：服务端重定向规则
 [[redirects]]
   from = "/"
-  to = "/zh/"
+  to = "/zh-CN/"
   status = 302
   conditions = {Language = ["zh", "zh-CN", "zh-TW"]}
 
 [[redirects]]
   from = "/"
-  to = "/en/"
+  to = "/en-US/"
   status = 302
   conditions = {Language = ["en"]}
 
 [[redirects]]
   from = "/"
-  to = "/zh/"
+  to = "/zh-CN/"
   status = 302
 
 # 处理 SPA 路由
@@ -159,11 +159,11 @@ Vercel 是另一个优秀的部署平台，对 Vite 项目有极好的支持。
   "rewrites": [
     {
       "source": "/",
-      "destination": "/zh/"
+      "destination": "/zh-CN/"
     },
     {
       "source": "/:path((?!zh|en).*)",
-      "destination": "/zh/:path"
+      "destination": "/zh-CN/:path"
     }
   ]
 }
@@ -191,9 +191,9 @@ Cloudflare Pages 提供全球 CDN 和出色的性能。
 创建 `docs/public/_redirects`：
 
 ```
-/  /zh/  302  Language=zh
-/  /en/  302  Language=en
-/  /zh/  302
+/  /zh-CN/  302  Language=zh
+/  /en-US/  302  Language=en
+/  /zh-CN/  302
 ```
 
 ### 自托管 (Nginx)
@@ -211,14 +211,14 @@ server {
     location = / {
         # 检测中文
         if ($http_accept_language ~* "^zh") {
-            return 302 /zh/;
+            return 302 /zh-CN/;
         }
         # 检测英文
         if ($http_accept_language ~* "^en") {
-            return 302 /en/;
+            return 302 /en-US/;
         }
         # 默认重定向
-        return 302 /zh/;
+        return 302 /zh-CN/;
     }
 
     # SPA fallback

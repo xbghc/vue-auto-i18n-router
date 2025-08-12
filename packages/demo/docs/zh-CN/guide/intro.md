@@ -44,11 +44,11 @@ graph TD
 
 示例 URL 结构：
 ```
-/              → 自动重定向到 /zh/ 或 /en/
-/zh/           → 中文首页
-/zh/guide/     → 中文指南
-/en/           → 英文首页  
-/en/guide/     → 英文指南
+/              → 自动重定向到 /zh-CN/ 或 /en-US/
+/zh-CN/           → 中文首页
+/zh-CN/guide/     → 中文指南
+/en-US/           → 英文首页  
+/en-US/guide/     → 英文指南
 ```
 
 ### 💾 偏好持久化

@@ -149,8 +149,8 @@ export default defineConfig({
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh', 'en'],      // These configs
-        defaultLocale: 'zh',         // are automatically
+        locales: ['zh-CN', 'en-US'],      // These configs
+        defaultLocale: 'zh-CN',         // are automatically
         cookieDomain: '.example.com' // read by the theme
       })
     ]

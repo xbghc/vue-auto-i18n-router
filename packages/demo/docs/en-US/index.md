@@ -8,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /en/guide/getting-started
+      link: /en-US/guide/getting-started
     - theme: alt
       text: Learn More
-      link: /en/guide/intro
+      link: /en-US/guide/intro
 
 features:
   - title: ✨ Automatic Language Detection

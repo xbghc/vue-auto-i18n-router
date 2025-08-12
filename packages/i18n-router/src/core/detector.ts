@@ -67,11 +67,34 @@ export class BrowserLanguageDetector {
     
     // Get browser language
     const lang = navigator.language || (navigator as any).userLanguage || ''
+    if (!lang) return null
     
-    // Extract language code (e.g., 'en-US' -> 'en')
-    const shortLang = lang.toLowerCase().split('-')[0]
+    // Normalize format: en_US -> en-US, zh_CN -> zh-CN
+    const normalizedLang = lang.replace('_', '-')
     
-    return shortLang || null
+    // Try exact match first (e.g., zh-CN matches zh-CN)
+    for (const locale of this.config.locales) {
+      if (locale.toLowerCase() === normalizedLang.toLowerCase()) {
+        return locale
+      }
+    }
+    
+    // Try language family match (e.g., zh-HK matches zh-TW if available)
+    const langPrefix = normalizedLang.toLowerCase().split('-')[0]
+    for (const locale of this.config.locales) {
+      if (locale.toLowerCase().startsWith(langPrefix + '-')) {
+        return locale
+      }
+    }
+    
+    // Try simple language match (e.g., zh matches zh if available)
+    for (const locale of this.config.locales) {
+      if (locale.toLowerCase() === langPrefix) {
+        return locale
+      }
+    }
+    
+    return null
   }
   
 }

@@ -114,19 +114,19 @@ Create `netlify.toml` in your project root:
 # Optimization: Server-side redirect rules
 [[redirects]]
   from = "/"
-  to = "/zh/"
+  to = "/zh-CN/"
   status = 302
   conditions = {Language = ["zh", "zh-CN", "zh-TW"]}
 
 [[redirects]]
   from = "/"
-  to = "/en/"
+  to = "/en-US/"
   status = 302
   conditions = {Language = ["en"]}
 
 [[redirects]]
   from = "/"
-  to = "/zh/"
+  to = "/zh-CN/"
   status = 302
 
 # Handle SPA routing
@@ -159,11 +159,11 @@ Create `vercel.json` in your project root:
   "rewrites": [
     {
       "source": "/",
-      "destination": "/zh/"
+      "destination": "/zh-CN/"
     },
     {
       "source": "/:path((?!zh|en).*)",
-      "destination": "/zh/:path"
+      "destination": "/zh-CN/:path"
     }
   ]
 }
@@ -191,9 +191,9 @@ Cloudflare Pages provides global CDN and excellent performance.
 Create `docs/public/_redirects`:
 
 ```
-/  /zh/  302  Language=zh
-/  /en/  302  Language=en
-/  /zh/  302
+/  /zh-CN/  302  Language=zh
+/  /en-US/  302  Language=en
+/  /zh-CN/  302
 ```
 
 ### Self-hosting (Nginx)
@@ -211,14 +211,14 @@ server {
     location = / {
         # Detect Chinese
         if ($http_accept_language ~* "^zh") {
-            return 302 /zh/;
+            return 302 /zh-CN/;
         }
         # Detect English
         if ($http_accept_language ~* "^en") {
-            return 302 /en/;
+            return 302 /en-US/;
         }
         # Default redirect
-        return 302 /zh/;
+        return 302 /zh-CN/;
     }
 
     # SPA fallback

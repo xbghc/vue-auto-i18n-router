@@ -28,8 +28,8 @@ vitepressAutoI18nRouter({
 
 ```typescript
 vitepressAutoI18nRouter({
-  locales: ['zh', 'en'],
-  defaultLocale: 'zh'  // 默认使用中文
+  locales: ['zh-CN', 'en-US'],
+  defaultLocale: 'zh-CN'  // 默认使用中文
 })
 ```
 
@@ -45,7 +45,7 @@ vitepressAutoI18nRouter({
 ```typescript
 vitepressAutoI18nRouter({
   locales: ['zh', 'en', 'ja', 'ko'],
-  defaultLocale: 'zh',
+  defaultLocale: 'zh-CN',
   localeNames: {
     zh: '简体中文',
     en: 'English',
@@ -70,8 +70,8 @@ export default defineConfig({
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh', 'en'],
-        defaultLocale: 'zh'
+        locales: ['zh-CN', 'en-US'],
+        defaultLocale: 'zh-CN'
       })
     ]
   }
@@ -93,14 +93,14 @@ export default defineConfig({
     zh: {
       label: '简体中文',
       lang: 'zh-CN',
-      link: '/zh/',
+      link: '/zh-CN/',
       title: '我的文档',
       description: '项目文档'
     },
     en: {
       label: 'English',
       lang: 'en-US',
-      link: '/en/',
+      link: '/en-US/',
       title: 'My Docs',
       description: 'Project Documentation'
     },
@@ -118,7 +118,7 @@ export default defineConfig({
     plugins: [
       vitepressAutoI18nRouter({
         locales: ['zh', 'en', 'ja'],
-        defaultLocale: 'zh',
+        defaultLocale: 'zh-CN',
         localeNames: {
           zh: '简体中文',
           en: 'English',
@@ -148,7 +148,7 @@ export default defineConfig({
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh', 'en'],  // 与上面的 keys 一致
+        locales: ['zh-CN', 'en-US'],  // 与上面的 keys 一致
         // ...
       })
     ]
@@ -225,8 +225,8 @@ export default defineConfig({
 import type { I18nRouterConfig } from 'vitepress-auto-i18n-router'
 
 const config: I18nRouterConfig = {
-  locales: ['zh', 'en'],
-  defaultLocale: 'zh',
+  locales: ['zh-CN', 'en-US'],
+  defaultLocale: 'zh-CN',
   localeNames: {
     zh: '简体中文',
     en: 'English'

@@ -8,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: 快速开始
-      link: /zh/guide/getting-started
+      link: /zh-CN/guide/getting-started
     - theme: alt
       text: 了解更多
-      link: /zh/guide/intro
+      link: /zh-CN/guide/intro
 
 features:
   - title: ✨ 自动语言检测

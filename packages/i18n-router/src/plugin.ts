@@ -47,10 +47,41 @@ function createDevMiddleware(config: I18nRouterConfig) {
       } else {
         // Detect from Accept-Language header
         const acceptLanguage = req.headers['accept-language'] || ''
-        const browserLang = acceptLanguage.split(',')[0].split('-')[0].toLowerCase()
+        const languages = acceptLanguage.split(',').map((lang: string) => {
+          const [code] = lang.trim().split(';')
+          // Normalize format: en_US -> en-US
+          return code.replace('_', '-')
+        })
         
-        if (config.locales.includes(browserLang)) {
-          targetLocale = browserLang
+        // Try to find best match
+        for (const browserLang of languages) {
+          // Try exact match (e.g., zh-CN matches zh-CN)
+          const exactMatch = config.locales.find(
+            locale => locale.toLowerCase() === browserLang.toLowerCase()
+          )
+          if (exactMatch) {
+            targetLocale = exactMatch
+            break
+          }
+          
+          // Try language family match (e.g., zh-HK matches zh-TW)
+          const langPrefix = browserLang.toLowerCase().split('-')[0]
+          const familyMatch = config.locales.find(
+            locale => locale.toLowerCase().startsWith(langPrefix + '-')
+          )
+          if (familyMatch) {
+            targetLocale = familyMatch
+            break
+          }
+          
+          // Try simple language match (e.g., zh matches zh)
+          const simpleMatch = config.locales.find(
+            locale => locale.toLowerCase() === langPrefix
+          )
+          if (simpleMatch) {
+            targetLocale = simpleMatch
+            break
+          }
         }
       }
       

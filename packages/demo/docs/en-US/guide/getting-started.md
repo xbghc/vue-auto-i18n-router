@@ -50,11 +50,7 @@ export default defineConfig({
     plugins: [
       vitepressAutoI18nRouter({
         locales: ['zh-CN', 'en-US'],
-        defaultLocale: 'zh-CN',
-        localeNames: {
-          zh: '简体中文',
-          en: 'English'
-        }
+        defaultLocale: 'zh-CN'
       })
     ]
   }
@@ -132,13 +128,10 @@ After configuration, you can verify the features:
 ```typescript
 interface I18nRouterConfig {
   // Available locale codes
-  locales: string[]        // e.g., ['zh', 'en', 'ja']
+  locales: string[]        // e.g., ['zh-CN', 'en-US', 'ja']
   
   // Default locale (used when detection fails)
-  defaultLocale: string    // e.g., 'zh'
-  
-  // Locale display names (optional)
-  localeNames?: Record<string, string>  // e.g., { zh: '简体中文', en: 'English' }
+  defaultLocale: string    // e.g., 'zh-CN'
 }
 ```
 
@@ -146,14 +139,8 @@ interface I18nRouterConfig {
 
 ```typescript
 vitepressAutoI18nRouter({
-  locales: ['zh', 'en', 'ja', 'ko'],
-  defaultLocale: 'zh-CN',
-  localeNames: {
-    zh: '简体中文',
-    en: 'English',
-    ja: '日本語',
-    ko: '한국어'
-  }
+  locales: ['zh-CN', 'en-US', 'ja', 'ko'],
+  defaultLocale: 'zh-CN'
 })
 ```
 

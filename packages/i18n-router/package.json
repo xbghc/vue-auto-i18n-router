@@ -11,6 +11,10 @@
       "import": "./src/index.ts",
       "types": "./src/index.ts"
     },
+    "./client": {
+      "import": "./src/client.ts",
+      "types": "./src/client.ts"
+    },
     "./vitepress": {
       "import": "./src/vitepress/index.ts",
       "types": "./src/vitepress/index.ts"

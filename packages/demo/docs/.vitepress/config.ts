@@ -39,13 +39,53 @@ export default defineConfig({
               text: '核心概念',
               items: [
                 { text: '主题集成', link: '/zh-CN/guide/theme-integration' },
-                { text: '配置选项', link: '/zh-CN/guide/configuration' }
+                { text: '配置选项', link: '/zh-CN/guide/configuration' },
+                { text: 'Composables API', link: '/zh-CN/guide/composables' },
+                { text: '路径映射', link: '/zh-CN/guide/path-mapping' }
               ]
             },
             {
               text: '部署',
               items: [
                 { text: '部署指南', link: '/zh-CN/guide/deployment' }
+              ]
+            },
+            {
+              text: '参考',
+              items: [
+                { text: 'API 参考', link: '/zh-CN/api/' },
+                { text: '常见问题', link: '/zh-CN/guide/faq' }
+              ]
+            }
+          ],
+          '/zh-CN/api/': [
+            {
+              text: '开始',
+              items: [
+                { text: '介绍', link: '/zh-CN/guide/intro' },
+                { text: '快速开始', link: '/zh-CN/guide/getting-started' }
+              ]
+            },
+            {
+              text: '核心概念',
+              items: [
+                { text: '主题集成', link: '/zh-CN/guide/theme-integration' },
+                { text: '配置选项', link: '/zh-CN/guide/configuration' },
+                { text: 'Composables API', link: '/zh-CN/guide/composables' },
+                { text: '路径映射', link: '/zh-CN/guide/path-mapping' }
+              ]
+            },
+            {
+              text: '部署',
+              items: [
+                { text: '部署指南', link: '/zh-CN/guide/deployment' }
+              ]
+            },
+            {
+              text: '参考',
+              items: [
+                { text: 'API 参考', link: '/zh-CN/api/' },
+                { text: '常见问题', link: '/zh-CN/guide/faq' }
               ]
             }
           ]
@@ -107,13 +147,53 @@ export default defineConfig({
               text: 'Core Concepts',
               items: [
                 { text: 'Theme Integration', link: '/en-US/guide/theme-integration' },
-                { text: 'Configuration', link: '/en-US/guide/configuration' }
+                { text: 'Configuration', link: '/en-US/guide/configuration' },
+                { text: 'Composables API', link: '/en-US/guide/composables' },
+                { text: 'Path Mapping', link: '/en-US/guide/path-mapping' }
               ]
             },
             {
               text: 'Deployment',
               items: [
                 { text: 'Deployment Guide', link: '/en-US/guide/deployment' }
+              ]
+            },
+            {
+              text: 'Reference',
+              items: [
+                { text: 'API Reference', link: '/en-US/api/' },
+                { text: 'FAQ', link: '/en-US/guide/faq' }
+              ]
+            }
+          ],
+          '/en-US/api/': [
+            {
+              text: 'Getting Started',
+              items: [
+                { text: 'Introduction', link: '/en-US/guide/intro' },
+                { text: 'Quick Start', link: '/en-US/guide/getting-started' }
+              ]
+            },
+            {
+              text: 'Core Concepts',
+              items: [
+                { text: 'Theme Integration', link: '/en-US/guide/theme-integration' },
+                { text: 'Configuration', link: '/en-US/guide/configuration' },
+                { text: 'Composables API', link: '/en-US/guide/composables' },
+                { text: 'Path Mapping', link: '/en-US/guide/path-mapping' }
+              ]
+            },
+            {
+              text: 'Deployment',
+              items: [
+                { text: 'Deployment Guide', link: '/en-US/guide/deployment' }
+              ]
+            },
+            {
+              text: 'Reference',
+              items: [
+                { text: 'API Reference', link: '/en-US/api/' },
+                { text: 'FAQ', link: '/en-US/guide/faq' }
               ]
             }
           ]
@@ -172,14 +252,10 @@ export default defineConfig({
     plugins: [
       vitepressAutoI18nRouter({
         locales: {
-          'zh-CN': 'zh-CN',    // zh-CN language maps to /zh/ directory
-          'en-US': 'en-US'     // en-US language maps to /en/ directory
+          'zh-CN': 'zh-CN',    // zh-CN language maps to /zh-CN/ directory
+          'en-US': 'en-US'     // en-US language maps to /en-US/ directory
         },
-        defaultLocale: 'zh-CN',
-        localeNames: {
-          zh: '简体中文',
-          en: 'English'
-        }
+        defaultLocale: 'zh-CN'
       })
     ]
   }

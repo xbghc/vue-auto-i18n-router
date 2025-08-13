@@ -4,6 +4,18 @@
   "private": true,
   "type": "module",
   "description": "Monorepo for VitePress Auto i18n Router - Automatic language detection and routing for VitePress",
+  "keywords": [
+    "vitepress",
+    "i18n",
+    "internationalization",
+    "router",
+    "language-detection",
+    "vue",
+    "vite",
+    "static-site",
+    "multilingual",
+    "auto-routing"
+  ],
   "author": {
     "name": "xbghc",
     "email": "ghm20191606@gmail.com"

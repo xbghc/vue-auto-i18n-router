@@ -4,10 +4,6 @@ import { createI18nRouterPlugin } from './plugin'
 // Export types
 export * from './types'
 
-// Export composables
-export { useI18nRouter } from './composables'
-export type { UseI18nRouterReturn } from './composables'
-
 // Export core classes (for advanced users)
 export { RouteParser } from './core/router'
 export { BrowserLanguageDetector } from './core/detector'

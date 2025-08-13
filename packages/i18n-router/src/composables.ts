@@ -15,7 +15,7 @@ export interface UseI18nRouterReturn {
  * @example
  * ```vue
  * <script setup>
- * import { useI18nRouter } from 'vitepress-auto-i18n-router'
+ * import { useI18nRouter } from 'vitepress-auto-i18n-router/client'
  * 
  * const { switchLocale, currentLocale, availableLocales } = useI18nRouter()
  * </script>

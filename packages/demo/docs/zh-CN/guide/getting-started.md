@@ -50,11 +50,7 @@ export default defineConfig({
     plugins: [
       vitepressAutoI18nRouter({
         locales: ['zh-CN', 'en-US'],
-        defaultLocale: 'zh-CN',
-        localeNames: {
-          zh: '简体中文',
-          en: 'English'
-        }
+        defaultLocale: 'zh-CN'
       })
     ]
   }
@@ -132,13 +128,10 @@ pnpm docs:preview
 ```typescript
 interface I18nRouterConfig {
   // 可用的语言代码
-  locales: string[]        // 例如：['zh', 'en', 'ja']
+  locales: string[]        // 例如：['zh-CN', 'en-US', 'ja']
   
   // 默认语言（当无法检测时使用）
-  defaultLocale: string    // 例如：'zh'
-  
-  // 语言显示名称（可选）
-  localeNames?: Record<string, string>  // 例如：{ zh: '简体中文', en: 'English' }
+  defaultLocale: string    // 例如：'zh-CN'
 }
 ```
 
@@ -146,14 +139,8 @@ interface I18nRouterConfig {
 
 ```typescript
 vitepressAutoI18nRouter({
-  locales: ['zh', 'en', 'ja', 'ko'],
-  defaultLocale: 'zh-CN',
-  localeNames: {
-    zh: '简体中文',
-    en: 'English',
-    ja: '日本語',
-    ko: '한국어'
-  }
+  locales: ['zh-CN', 'en-US', 'ja', 'ko'],
+  defaultLocale: 'zh-CN'
 })
 ```
 

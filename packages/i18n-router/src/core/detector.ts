@@ -1,12 +1,16 @@
 import type { I18nRouterConfig } from '../types'
+import { LocalePathMapper } from './LocalePathMapper'
 
 /**
  * Browser language detector
  */
 export class BrowserLanguageDetector {
   private readonly STORAGE_KEY = 'vitepress-locale'
+  private mapper: LocalePathMapper
   
-  constructor(private config: I18nRouterConfig) {}
+  constructor(private config: I18nRouterConfig) {
+    this.mapper = new LocalePathMapper(config.locales)
+  }
   
   /**
    * Detect the best matching locale
@@ -19,13 +23,13 @@ export class BrowserLanguageDetector {
     
     // 1. Check saved preference
     const saved = this.getSavedLocale()
-    if (saved && this.config.locales.includes(saved)) {
+    if (saved && this.mapper.isValidLocale(saved)) {
       return saved
     }
     
     // 2. Check browser language
     const browserLocale = this.getBrowserLocale()
-    if (browserLocale && this.config.locales.includes(browserLocale)) {
+    if (browserLocale) {
       return browserLocale
     }
     
@@ -69,32 +73,8 @@ export class BrowserLanguageDetector {
     const lang = navigator.language || (navigator as any).userLanguage || ''
     if (!lang) return null
     
-    // Normalize format: en_US -> en-US, zh_CN -> zh-CN
-    const normalizedLang = lang.replace('_', '-')
-    
-    // Try exact match first (e.g., zh-CN matches zh-CN)
-    for (const locale of this.config.locales) {
-      if (locale.toLowerCase() === normalizedLang.toLowerCase()) {
-        return locale
-      }
-    }
-    
-    // Try language family match (e.g., zh-HK matches zh-TW if available)
-    const langPrefix = normalizedLang.toLowerCase().split('-')[0]
-    for (const locale of this.config.locales) {
-      if (locale.toLowerCase().startsWith(langPrefix + '-')) {
-        return locale
-      }
-    }
-    
-    // Try simple language match (e.g., zh matches zh if available)
-    for (const locale of this.config.locales) {
-      if (locale.toLowerCase() === langPrefix) {
-        return locale
-      }
-    }
-    
-    return null
+    // Use mapper's built-in method to find best match
+    return this.mapper.findBestMatchingLocale(lang)
   }
   
 }

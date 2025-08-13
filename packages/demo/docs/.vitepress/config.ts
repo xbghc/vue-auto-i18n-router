@@ -4,10 +4,10 @@ import { vitepressAutoI18nRouter } from '../../../i18n-router/src/index'
 export default defineConfig({
   title: 'VitePress Auto i18n Router',
   description: 'Automatic language detection and routing for VitePress static sites',
-  
+
   // Base configuration
   base: '/',
-  
+
   // Locales configuration for VitePress native language switcher
   locales: {
     'zh-CN': {
@@ -79,7 +79,7 @@ export default defineConfig({
       }
     },
     'en-US': {
-      label: 'English', 
+      label: 'English',
       lang: 'en-US',
       link: '/en-US/',
       themeConfig: {
@@ -129,17 +129,17 @@ export default defineConfig({
       }
     }
   },
-  
+
   // Global theme configuration
   themeConfig: {
     // Logo
     logo: '/logo.svg',
-    
+
     // Social links (global)
     socialLinks: [
       { icon: 'github', link: 'https://github.com/xbghc/vue-auto-i18n-router' }
     ],
-    
+
     // Search (global)
     search: {
       provider: 'local',
@@ -166,12 +166,15 @@ export default defineConfig({
       }
     }
   },
-  
+
   // Use our i18n router plugin for auto language tracking
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh-CN', 'en-US'],
+        locales: {
+          'zh-CN': 'zh-CN',    // zh-CN language maps to /zh/ directory
+          'en-US': 'en-US'     // en-US language maps to /en/ directory
+        },
         defaultLocale: 'zh-CN',
         localeNames: {
           zh: '简体中文',

@@ -14,11 +14,6 @@ export interface I18nRouterConfig {
   defaultLocale: string
   
   /**
-   * Locale display names for UI
-   */
-  localeNames?: Record<string, string>
-  
-  /**
    * Custom route rewrites
    */
   rewrites?: Record<string, string>

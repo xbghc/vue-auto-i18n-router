@@ -1,12 +1,14 @@
 import type { I18nRouterConfig } from './types'
 import type { ViteDevServer } from 'vite'
 import { RouteParser } from './core/router'
+import { normalizeConfig } from './core/config'
 
 /**
  * Create middleware for dev server
  */
 function createDevMiddleware(config: I18nRouterConfig) {
-  const parser = new RouteParser(config)
+  const internalConfig = normalizeConfig(config)
+  const parser = new RouteParser(internalConfig)
   
   return (req: any, res: any, next: any) => {
     const url = req.url || ''
@@ -24,9 +26,10 @@ function createDevMiddleware(config: I18nRouterConfig) {
     // Parse URL
     const { locale, path } = parser.parse(url)
     
-    // Handle locale without trailing slash (e.g., /en -> /en/)
+    // Handle path without trailing slash (e.g., /en -> /en/)
     if (locale && !url.endsWith('/') && path === '/') {
-      res.writeHead(301, { Location: `/${locale}/` })
+      const pathSegment = internalConfig.localeToPath[locale]
+      res.writeHead(301, { Location: `/${pathSegment}/` })
       res.end()
       return
     }
@@ -34,7 +37,7 @@ function createDevMiddleware(config: I18nRouterConfig) {
     // Handle root path and paths without locale prefix
     if (!locale) {
       // For root path, check cookie first, then browser language
-      let targetLocale = config.defaultLocale
+      let targetLocale = internalConfig.defaultLocale
       
       // Check cookie for saved preference
       const cookies = req.headers.cookie || ''
@@ -42,7 +45,7 @@ function createDevMiddleware(config: I18nRouterConfig) {
         .find((c: string) => c.trim().startsWith('vitepress-locale='))
         ?.split('=')[1]
       
-      if (savedLocale && config.locales.includes(savedLocale)) {
+      if (savedLocale && internalConfig.locales.includes(savedLocale)) {
         targetLocale = savedLocale
       } else {
         // Detect from Accept-Language header
@@ -56,7 +59,7 @@ function createDevMiddleware(config: I18nRouterConfig) {
         // Try to find best match
         for (const browserLang of languages) {
           // Try exact match (e.g., zh-CN matches zh-CN)
-          const exactMatch = config.locales.find(
+          const exactMatch = internalConfig.locales.find(
             locale => locale.toLowerCase() === browserLang.toLowerCase()
           )
           if (exactMatch) {
@@ -66,7 +69,7 @@ function createDevMiddleware(config: I18nRouterConfig) {
           
           // Try language family match (e.g., zh-HK matches zh-TW)
           const langPrefix = browserLang.toLowerCase().split('-')[0]
-          const familyMatch = config.locales.find(
+          const familyMatch = internalConfig.locales.find(
             locale => locale.toLowerCase().startsWith(langPrefix + '-')
           )
           if (familyMatch) {
@@ -75,7 +78,7 @@ function createDevMiddleware(config: I18nRouterConfig) {
           }
           
           // Try simple language match (e.g., zh matches zh)
-          const simpleMatch = config.locales.find(
+          const simpleMatch = internalConfig.locales.find(
             locale => locale.toLowerCase() === langPrefix
           )
           if (simpleMatch) {
@@ -100,6 +103,8 @@ function createDevMiddleware(config: I18nRouterConfig) {
  * Main plugin implementation
  */
 export function createI18nRouterPlugin(config: I18nRouterConfig): any {
+  const internalConfig = normalizeConfig(config)
+  
   return {
     name: 'vitepress-auto-i18n-router',
     
@@ -107,6 +112,15 @@ export function createI18nRouterPlugin(config: I18nRouterConfig): any {
     configureServer(server: ViteDevServer) {
       // Add middleware for language detection and redirect
       server.middlewares.use(createDevMiddleware(config))
+    },
+    
+    // Inject config for client-side use
+    generateBundle() {
+      this.emitFile({
+        type: 'asset',
+        fileName: 'i18n-router-config.js',
+        source: `window.__I18N_ROUTER_CONFIG__ = ${JSON.stringify(internalConfig)};`
+      })
     }
   }
 }

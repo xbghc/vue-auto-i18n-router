@@ -1,8 +1,10 @@
 export interface I18nRouterConfig {
   /**
-   * List of supported locales
+   * Supported locales configuration
+   * - Array format: ['zh-CN', 'en-US'] (locales as directory names)
+   * - Object format: { 'zh-CN': 'cn', 'en-US': 'en' } (locale to directory mapping)
    */
-  locales: string[]
+  locales: string[] | Record<string, string>
   
   /**
    * Default locale
@@ -29,6 +31,16 @@ export interface I18nRouterConfig {
 export interface ParsedRoute {
   locale: string
   path: string
+}
+
+export interface InternalConfig {
+  locales: string[]
+  pathToLocale: Record<string, string>
+  localeToPath: Record<string, string>
+  defaultLocale: string
+  localeNames?: Record<string, string>
+  rewrites?: Record<string, string>
+  switcherPosition?: 'nav' | 'sidebar' | 'none'
 }
 
 export interface LocaleRoute {

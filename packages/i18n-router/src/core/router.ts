@@ -1,10 +1,10 @@
-import type { ParsedRoute, I18nRouterConfig } from '../types'
+import type { ParsedRoute, InternalConfig } from '../types'
 
 /**
  * Route parser for extracting locale and path from URL
  */
 export class RouteParser {
-  constructor(private config: I18nRouterConfig) {}
+  constructor(private config: InternalConfig) {}
   
   /**
    * Parse URL to extract locale and path
@@ -13,13 +13,18 @@ export class RouteParser {
     // Remove query and hash
     const cleanUrl = url.split('?')[0].split('#')[0]
     
-    // Check if URL has locale prefix
-    const localePattern = new RegExp(`^/(${this.config.locales.join('|')})(/.*)?$`)
-    const match = cleanUrl.match(localePattern)
+    // Get all possible paths from the mapping
+    const paths = Object.keys(this.config.pathToLocale)
+    
+    // Check if URL has path prefix
+    const pathPattern = new RegExp(`^/(${paths.join('|')})(/.*)?$`)
+    const match = cleanUrl.match(pathPattern)
     
     if (match) {
+      const pathSegment = match[1]
+      const locale = this.config.pathToLocale[pathSegment]
       return {
-        locale: match[1],
+        locale,
         path: match[2] || '/'
       }
     }
@@ -38,13 +43,16 @@ export class RouteParser {
     // Ensure path starts with /
     const normalizedPath = path.startsWith('/') ? path : `/${path}`
     
+    // Get the path segment for this locale
+    const pathSegment = this.config.localeToPath[locale]
+    
     // For index page
     if (normalizedPath === '/') {
-      return `/${locale}/`
+      return `/${pathSegment}/`
     }
     
     // For other pages
-    return `/${locale}${normalizedPath}`
+    return `/${pathSegment}${normalizedPath}`
   }
   
   /**

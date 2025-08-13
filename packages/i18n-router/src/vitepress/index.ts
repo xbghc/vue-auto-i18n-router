@@ -20,9 +20,25 @@ const EnhancedTheme: Theme = {
         document.cookie = `vitepress-locale=${locale};path=/;max-age=31536000`
       }
       
+      const getI18nConfig = () => {
+        return (window as any).__I18N_ROUTER_CONFIG__ || null
+      }
+      
       const extractLocaleFromPath = (path: string): string | null => {
-        const match = path.match(/^\/([\w-]+)\//)
-        return match ? match[1] : null
+        const config = getI18nConfig()
+        if (!config) {
+          // Fallback to original behavior
+          const match = path.match(/^\/([\w-]+)\//)
+          return match ? match[1] : null
+        }
+        
+        // Use path mapping to find locale
+        const match = path.match(/^\/([^/]+)\//)
+        if (match) {
+          const pathSegment = match[1]
+          return config.pathToLocale[pathSegment] || null
+        }
+        return null
       }
       
       // Auto-redirect on initial load if needed (for production)
@@ -31,10 +47,21 @@ const EnhancedTheme: Theme = {
       
       // If no locale in path (e.g., visiting root "/" in production)
       if (!currentLocale && currentPath === '/') {
-        // Get available locales from VitePress config
-        const siteData = (window as any).__VP_SITE_DATA__
-        const locales = siteData?.locales ? Object.keys(siteData.locales) : ['zh', 'en']
-        const defaultLocale = locales[0] || 'zh'
+        const config = getI18nConfig()
+        
+        // Get available locales from either i18n config or VitePress config
+        let locales: string[]
+        let defaultLocale: string
+        
+        if (config) {
+          locales = config.locales
+          defaultLocale = config.defaultLocale
+        } else {
+          // Fallback to VitePress config
+          const siteData = (window as any).__VP_SITE_DATA__
+          locales = siteData?.locales ? Object.keys(siteData.locales) : ['zh', 'en']
+          defaultLocale = locales[0] || 'zh'
+        }
         
         // Detect user preference
         let targetLocale = defaultLocale
@@ -67,8 +94,11 @@ const EnhancedTheme: Theme = {
           }
         }
         
+        // Get the target path for the locale
+        const targetPath = config ? config.localeToPath[targetLocale] : targetLocale
+        
         // Redirect to locale version
-        router.go(`/${targetLocale}/`)
+        router.go(`/${targetPath}/`)
         return // Exit early to avoid saving incorrect locale
       }
       

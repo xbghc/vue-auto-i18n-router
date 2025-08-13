@@ -5,8 +5,12 @@ export default defineConfig({
   title: 'VitePress Auto i18n Router',
   description: 'Automatic language detection and routing for VitePress static sites',
 
-  // Base configuration
-  base: '/',
+  // Base configuration - IMPORTANT for GitHub Pages
+  // This sets the base URL path for all assets and links in your site
+  // - Local development: '/' (site runs at http://localhost:5173/)
+  // - GitHub Pages: '/repository-name/' (site runs at https://username.github.io/repository-name/)
+  // Without this, all CSS/JS assets and navigation links will 404 on GitHub Pages
+  base: process.env.GITHUB_ACTIONS ? '/vue-auto-i18n-router/' : '/',
 
   // Locales configuration for VitePress native language switcher
   locales: {
@@ -47,7 +51,8 @@ export default defineConfig({
             {
               text: '部署',
               items: [
-                { text: '部署指南', link: '/zh-CN/guide/deployment' }
+                { text: '部署指南', link: '/zh-CN/guide/deployment' },
+                { text: 'GitHub Pages', link: '/zh-CN/guide/github-pages' }
               ]
             },
             {
@@ -78,7 +83,8 @@ export default defineConfig({
             {
               text: '部署',
               items: [
-                { text: '部署指南', link: '/zh-CN/guide/deployment' }
+                { text: '部署指南', link: '/zh-CN/guide/deployment' },
+                { text: 'GitHub Pages', link: '/zh-CN/guide/github-pages' }
               ]
             },
             {
@@ -155,7 +161,8 @@ export default defineConfig({
             {
               text: 'Deployment',
               items: [
-                { text: 'Deployment Guide', link: '/en-US/guide/deployment' }
+                { text: 'Deployment Guide', link: '/en-US/guide/deployment' },
+                { text: 'GitHub Pages', link: '/en-US/guide/github-pages' }
               ]
             },
             {
@@ -186,7 +193,8 @@ export default defineConfig({
             {
               text: 'Deployment',
               items: [
-                { text: 'Deployment Guide', link: '/en-US/guide/deployment' }
+                { text: 'Deployment Guide', link: '/en-US/guide/deployment' },
+                { text: 'GitHub Pages', link: '/en-US/guide/github-pages' }
               ]
             },
             {

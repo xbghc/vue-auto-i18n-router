@@ -172,5 +172,5 @@ The plugin works on all static hosting platforms:
 ## Next Steps
 
 - Check the [Introduction](./intro) to understand how it works
-- Explore [Advanced Configuration](../api/config) options
-- Refer to the [Deployment Guide](../guide/deployment) for production optimization
+- Explore [Configuration](./configuration) for more options
+- Refer to the [Deployment Guide](./deployment) for production optimization

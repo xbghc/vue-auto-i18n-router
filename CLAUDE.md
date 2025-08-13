@@ -57,7 +57,7 @@ pnpm dev           # Watch mode build
 
 ### Core Library Structure (packages/i18n-router)
 
-The library provides automatic i18n routing through two main components:
+The library provides automatic i18n routing through three main components:
 
 1. **Vite Plugin** (`src/plugin.ts`)
    - Provides development server middleware that intercepts requests
@@ -71,6 +71,11 @@ The library provides automatic i18n routing through two main components:
    - Tracks user language preference in localStorage and cookies
    - In production, handles client-side routing for language detection
    - Automatically redirects root path visits based on saved preference or browser language
+
+3. **Composables API** (`src/composables.ts`, exported via `src/client.ts`)
+   - Provides `useI18nRouter()` composable for Vue components
+   - Must be imported from `/client` path to avoid server-side loading issues
+   - Enables custom language switchers with reactive state
 
 ### How It Works
 
@@ -102,25 +107,30 @@ The library provides automatic i18n routing through two main components:
    - Paths like `/en-US` are redirected to `/en-US/` (with trailing slash)
    - Static assets and Vite special paths are passed through unchanged
 
-4. **Minimal Surface Area:**
-   - After recent cleanup, only essential files remain:
-     - `src/plugin.ts` - Main plugin implementation
-     - `src/core/router.ts` - Route parsing logic
-     - `src/core/detector.ts` - Language detection utilities
-     - `src/vitepress/index.ts` - Theme enhancement
-     - `src/types.ts` - TypeScript definitions
-     - `src/index.ts` - Package entry point
+4. **Core Files and Their Roles:**
+   - `src/plugin.ts` - Main plugin implementation with dev server middleware
+   - `src/core/router.ts` - Route parsing and generation logic
+   - `src/core/detector.ts` - Browser language detection utilities
+   - `src/core/LocalePathMapper.ts` - Bidirectional locale-to-path mapping with intelligent matching
+   - `src/vitepress/index.ts` - Theme enhancement for client-side routing
+   - `src/composables.ts` - Vue composable for language switching
+   - `src/client.ts` - Client-side only exports (composables)
+   - `src/types.ts` - TypeScript definitions
+   - `src/index.ts` - Main package entry point (server-safe exports)
 
 ### Integration in Demo Site
 
-The demo site uses the library in two places:
+The demo site uses the library in multiple ways:
 
 1. **VitePress Config** (`docs/.vitepress/config.ts`):
    ```typescript
    vite: {
      plugins: [
        vitepressAutoI18nRouter({
+         // Array format (locale as path)
          locales: ['zh-CN', 'en-US'],
+         // OR object format (custom path mapping)
+         locales: { 'zh-CN': 'zh', 'en-US': 'en' },
          defaultLocale: 'zh-CN'
        })
      ]
@@ -130,6 +140,12 @@ The demo site uses the library in two places:
 2. **VitePress Theme** (`docs/.vitepress/theme/index.ts`):
    ```typescript
    export { default } from 'vitepress-auto-i18n-router/vitepress'
+   ```
+
+3. **Custom Components** (Vue files):
+   ```typescript
+   import { useI18nRouter } from 'vitepress-auto-i18n-router/client'
+   const { switchLocale, currentLocale, availableLocales } = useI18nRouter()
    ```
 
 ## Package Management
@@ -152,3 +168,28 @@ The demo site uses the library in two places:
 2. **Production Build:**
    - The `generateBundle` hook doesn't work with VitePress (it generates its own index.html)
    - Production routing relies entirely on client-side JavaScript in the theme
+
+3. **Import Errors with Composables:**
+   - Symptom: "does not provide an export named 'useData'" when importing from main package
+   - Cause: VitePress client APIs cannot be imported in server/config context
+   - Solution: Import composables from `/client` path: `'vitepress-auto-i18n-router/client'`
+
+## Important Configuration Notes
+
+1. **Path Mapping Consistency:**
+   - Plugin `locales` config must match VitePress `locales` keys
+   - When using custom paths, both configs must align:
+     ```typescript
+     // VitePress locales
+     locales: { 'zh': {...}, 'en': {...} }
+     // Plugin config
+     locales: { 'zh-CN': 'zh', 'en-US': 'en' }
+     ```
+
+2. **Directory Structure:**
+   - Must match the configured paths (e.g., `/zh/` requires `docs/zh/` directory)
+   - Each locale directory needs its own `index.md`
+
+3. **Sidebar Configuration:**
+   - VitePress sidebars are path-based
+   - Need separate configs for each path pattern (`/zh-CN/guide/`, `/zh-CN/api/`, etc.)

@@ -33,27 +33,6 @@ vitepressAutoI18nRouter({
 })
 ```
 
-### localeNames
-
-- **类型：** `Record<string, string>`
-- **必需：** 否
-- **默认值：** `{}`
-- **示例：** `{ zh: '简体中文', en: 'English' }`
-
-为每个语言代码提供可读的显示名称。主要用于语言切换器的显示。
-
-```typescript
-vitepressAutoI18nRouter({
-  locales: ['zh', 'en', 'ja', 'ko'],
-  defaultLocale: 'zh-CN',
-  localeNames: {
-    zh: '简体中文',
-    en: 'English',
-    ja: '日本語',
-    ko: '한국어'
-  }
-})
-```
 
 ## 完整配置示例
 
@@ -117,13 +96,8 @@ export default defineConfig({
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh', 'en', 'ja'],
-        defaultLocale: 'zh-CN',
-        localeNames: {
-          zh: '简体中文',
-          en: 'English',
-          ja: '日本語'
-        }
+        locales: ['zh-CN', 'en-US', 'ja'],
+        defaultLocale: 'zh-CN'
       })
     ]
   }
@@ -226,10 +200,6 @@ import type { I18nRouterConfig } from 'vitepress-auto-i18n-router'
 
 const config: I18nRouterConfig = {
   locales: ['zh-CN', 'en-US'],
-  defaultLocale: 'zh-CN',
-  localeNames: {
-    zh: '简体中文',
-    en: 'English'
-  }
+  defaultLocale: 'zh-CN'
 }
 ```

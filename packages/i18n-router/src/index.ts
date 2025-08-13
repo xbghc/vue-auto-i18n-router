@@ -7,6 +7,7 @@ export * from './types'
 // Export core classes (for advanced users)
 export { RouteParser } from './core/router'
 export { BrowserLanguageDetector } from './core/detector'
+export { LocalePathMapper } from './core/LocalePathMapper'
 
 /**
  * VitePress Auto i18n Router Plugin
@@ -14,7 +15,7 @@ export { BrowserLanguageDetector } from './core/detector'
  */
 export function vitepressAutoI18nRouter(config: I18nRouterConfig): any {
   // Validate config
-  if (!config.locales || config.locales.length === 0) {
+  if (!config.locales || (Array.isArray(config.locales) ? config.locales.length === 0 : Object.keys(config.locales).length === 0)) {
     throw new Error('At least one locale must be configured')
   }
   
@@ -22,7 +23,9 @@ export function vitepressAutoI18nRouter(config: I18nRouterConfig): any {
     throw new Error('Default locale must be specified')
   }
   
-  if (!config.locales.includes(config.defaultLocale)) {
+  // Check if default locale is valid
+  const localesList = Array.isArray(config.locales) ? config.locales : Object.keys(config.locales)
+  if (!localesList.includes(config.defaultLocale)) {
     throw new Error('Default locale must be one of the configured locales')
   }
   

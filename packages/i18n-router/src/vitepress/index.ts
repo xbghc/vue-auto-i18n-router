@@ -21,8 +21,32 @@ const EnhancedTheme: Theme = {
       }
       
       const extractLocaleFromPath = (path: string): string | null => {
+        // Extract path segment from URL
         const match = path.match(/^\/([\w-]+)\//)
-        return match ? match[1] : null
+        if (!match) return null
+        
+        const pathSegment = match[1]
+        
+        // Get locales from VitePress config
+        const siteData = (window as any).__VP_SITE_DATA__
+        const locales = siteData?.locales ? Object.keys(siteData.locales) : []
+        
+        // Check if this path segment is a configured locale
+        // VitePress locales object uses the actual path as key
+        if (locales.includes(pathSegment)) {
+          return pathSegment
+        }
+        
+        // If not found directly, it might be a custom path mapping
+        // We need to check if any locale's link matches this path
+        for (const locale of locales) {
+          const localeConfig = siteData.locales[locale]
+          if (localeConfig?.link && localeConfig.link.startsWith(`/${pathSegment}/`)) {
+            return locale
+          }
+        }
+        
+        return null
       }
       
       // Auto-redirect on initial load if needed (for production)
@@ -39,31 +63,36 @@ const EnhancedTheme: Theme = {
         // Detect user preference
         let targetLocale = defaultLocale
         
+        // Helper function to find best matching locale
+        const findBestMatch = (browserLang: string, availableLocales: string[]): string | null => {
+          const normalized = browserLang.replace('_', '-')
+          
+          // 1. Exact match
+          const exactMatch = availableLocales.find(l => l.toLowerCase() === normalized.toLowerCase())
+          if (exactMatch) return exactMatch
+          
+          // 2. Language family match
+          const langPrefix = normalized.toLowerCase().split('-')[0]
+          const familyMatch = availableLocales.find(l => l.toLowerCase().startsWith(langPrefix + '-'))
+          if (familyMatch) return familyMatch
+          
+          // 3. Simple language match
+          const simpleMatch = availableLocales.find(l => l.toLowerCase() === langPrefix)
+          if (simpleMatch) return simpleMatch
+          
+          return null
+        }
+        
         // 1. Check saved preference
         const savedLocale = localStorage.getItem('vitepress-preferred-lang')
         if (savedLocale && locales.includes(savedLocale)) {
           targetLocale = savedLocale
         } else {
           // 2. Check browser language with intelligent matching
-          const browserLang = (navigator.language || '').replace('_', '-')
-          
-          // Try exact match first (e.g., zh-CN matches zh-CN)
-          const exactMatch = locales.find(l => l.toLowerCase() === browserLang.toLowerCase())
-          if (exactMatch) {
-            targetLocale = exactMatch
-          } else {
-            // Try language family match (e.g., zh-HK matches zh-TW)
-            const langPrefix = browserLang.toLowerCase().split('-')[0]
-            const familyMatch = locales.find(l => l.toLowerCase().startsWith(langPrefix + '-'))
-            if (familyMatch) {
-              targetLocale = familyMatch
-            } else {
-              // Try simple language match (e.g., zh matches zh)
-              const simpleMatch = locales.find(l => l.toLowerCase() === langPrefix)
-              if (simpleMatch) {
-                targetLocale = simpleMatch
-              }
-            }
+          const browserLang = navigator.language || ''
+          const match = findBestMatch(browserLang, locales)
+          if (match) {
+            targetLocale = match
           }
         }
         

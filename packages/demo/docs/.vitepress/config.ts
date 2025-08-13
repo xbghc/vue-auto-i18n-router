@@ -4,10 +4,14 @@ import { vitepressAutoI18nRouter } from '../../../i18n-router/src/index'
 export default defineConfig({
   title: 'VitePress Auto i18n Router',
   description: 'Automatic language detection and routing for VitePress static sites',
-  
-  // Base configuration
-  base: '/',
-  
+
+  // Base configuration - IMPORTANT for GitHub Pages
+  // This sets the base URL path for all assets and links in your site
+  // - Local development: '/' (site runs at http://localhost:5173/)
+  // - GitHub Pages: '/repository-name/' (site runs at https://username.github.io/repository-name/)
+  // Without this, all CSS/JS assets and navigation links will 404 on GitHub Pages
+  base: process.env.GITHUB_ACTIONS ? '/vue-auto-i18n-router/' : '/',
+
   // Locales configuration for VitePress native language switcher
   locales: {
     'zh-CN': {
@@ -39,13 +43,55 @@ export default defineConfig({
               text: '核心概念',
               items: [
                 { text: '主题集成', link: '/zh-CN/guide/theme-integration' },
-                { text: '配置选项', link: '/zh-CN/guide/configuration' }
+                { text: '配置选项', link: '/zh-CN/guide/configuration' },
+                { text: 'Composables API', link: '/zh-CN/guide/composables' },
+                { text: '路径映射', link: '/zh-CN/guide/path-mapping' }
               ]
             },
             {
               text: '部署',
               items: [
-                { text: '部署指南', link: '/zh-CN/guide/deployment' }
+                { text: '部署指南', link: '/zh-CN/guide/deployment' },
+                { text: 'GitHub Pages', link: '/zh-CN/guide/github-pages' }
+              ]
+            },
+            {
+              text: '参考',
+              items: [
+                { text: 'API 参考', link: '/zh-CN/api/' },
+                { text: '常见问题', link: '/zh-CN/guide/faq' }
+              ]
+            }
+          ],
+          '/zh-CN/api/': [
+            {
+              text: '开始',
+              items: [
+                { text: '介绍', link: '/zh-CN/guide/intro' },
+                { text: '快速开始', link: '/zh-CN/guide/getting-started' }
+              ]
+            },
+            {
+              text: '核心概念',
+              items: [
+                { text: '主题集成', link: '/zh-CN/guide/theme-integration' },
+                { text: '配置选项', link: '/zh-CN/guide/configuration' },
+                { text: 'Composables API', link: '/zh-CN/guide/composables' },
+                { text: '路径映射', link: '/zh-CN/guide/path-mapping' }
+              ]
+            },
+            {
+              text: '部署',
+              items: [
+                { text: '部署指南', link: '/zh-CN/guide/deployment' },
+                { text: 'GitHub Pages', link: '/zh-CN/guide/github-pages' }
+              ]
+            },
+            {
+              text: '参考',
+              items: [
+                { text: 'API 参考', link: '/zh-CN/api/' },
+                { text: '常见问题', link: '/zh-CN/guide/faq' }
               ]
             }
           ]
@@ -79,7 +125,7 @@ export default defineConfig({
       }
     },
     'en-US': {
-      label: 'English', 
+      label: 'English',
       lang: 'en-US',
       link: '/en-US/',
       themeConfig: {
@@ -107,13 +153,55 @@ export default defineConfig({
               text: 'Core Concepts',
               items: [
                 { text: 'Theme Integration', link: '/en-US/guide/theme-integration' },
-                { text: 'Configuration', link: '/en-US/guide/configuration' }
+                { text: 'Configuration', link: '/en-US/guide/configuration' },
+                { text: 'Composables API', link: '/en-US/guide/composables' },
+                { text: 'Path Mapping', link: '/en-US/guide/path-mapping' }
               ]
             },
             {
               text: 'Deployment',
               items: [
-                { text: 'Deployment Guide', link: '/en-US/guide/deployment' }
+                { text: 'Deployment Guide', link: '/en-US/guide/deployment' },
+                { text: 'GitHub Pages', link: '/en-US/guide/github-pages' }
+              ]
+            },
+            {
+              text: 'Reference',
+              items: [
+                { text: 'API Reference', link: '/en-US/api/' },
+                { text: 'FAQ', link: '/en-US/guide/faq' }
+              ]
+            }
+          ],
+          '/en-US/api/': [
+            {
+              text: 'Getting Started',
+              items: [
+                { text: 'Introduction', link: '/en-US/guide/intro' },
+                { text: 'Quick Start', link: '/en-US/guide/getting-started' }
+              ]
+            },
+            {
+              text: 'Core Concepts',
+              items: [
+                { text: 'Theme Integration', link: '/en-US/guide/theme-integration' },
+                { text: 'Configuration', link: '/en-US/guide/configuration' },
+                { text: 'Composables API', link: '/en-US/guide/composables' },
+                { text: 'Path Mapping', link: '/en-US/guide/path-mapping' }
+              ]
+            },
+            {
+              text: 'Deployment',
+              items: [
+                { text: 'Deployment Guide', link: '/en-US/guide/deployment' },
+                { text: 'GitHub Pages', link: '/en-US/guide/github-pages' }
+              ]
+            },
+            {
+              text: 'Reference',
+              items: [
+                { text: 'API Reference', link: '/en-US/api/' },
+                { text: 'FAQ', link: '/en-US/guide/faq' }
               ]
             }
           ]
@@ -129,17 +217,17 @@ export default defineConfig({
       }
     }
   },
-  
+
   // Global theme configuration
   themeConfig: {
     // Logo
     logo: '/logo.svg',
-    
+
     // Social links (global)
     socialLinks: [
       { icon: 'github', link: 'https://github.com/xbghc/vue-auto-i18n-router' }
     ],
-    
+
     // Search (global)
     search: {
       provider: 'local',
@@ -166,17 +254,16 @@ export default defineConfig({
       }
     }
   },
-  
+
   // Use our i18n router plugin for auto language tracking
   vite: {
     plugins: [
       vitepressAutoI18nRouter({
-        locales: ['zh-CN', 'en-US'],
-        defaultLocale: 'zh-CN',
-        localeNames: {
-          zh: '简体中文',
-          en: 'English'
-        }
+        locales: {
+          'zh-CN': 'zh-CN',    // zh-CN language maps to /zh-CN/ directory
+          'en-US': 'en-US'     // en-US language maps to /en-US/ directory
+        },
+        defaultLocale: 'zh-CN'
       })
     ]
   }

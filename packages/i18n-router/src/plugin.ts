@@ -1,12 +1,14 @@
 import type { I18nRouterConfig } from './types'
 import type { ViteDevServer } from 'vite'
 import { RouteParser } from './core/router'
+import { LocalePathMapper } from './core/LocalePathMapper'
 
 /**
  * Create middleware for dev server
  */
 function createDevMiddleware(config: I18nRouterConfig) {
   const parser = new RouteParser(config)
+  const mapper = new LocalePathMapper(config.locales)
   
   return (req: any, res: any, next: any) => {
     const url = req.url || ''
@@ -42,7 +44,7 @@ function createDevMiddleware(config: I18nRouterConfig) {
         .find((c: string) => c.trim().startsWith('vitepress-locale='))
         ?.split('=')[1]
       
-      if (savedLocale && config.locales.includes(savedLocale)) {
+      if (savedLocale && mapper.isValidLocale(savedLocale)) {
         targetLocale = savedLocale
       } else {
         // Detect from Accept-Language header
@@ -53,33 +55,11 @@ function createDevMiddleware(config: I18nRouterConfig) {
           return code.replace('_', '-')
         })
         
-        // Try to find best match
+        // Try to find best match using mapper's built-in method
         for (const browserLang of languages) {
-          // Try exact match (e.g., zh-CN matches zh-CN)
-          const exactMatch = config.locales.find(
-            locale => locale.toLowerCase() === browserLang.toLowerCase()
-          )
-          if (exactMatch) {
-            targetLocale = exactMatch
-            break
-          }
-          
-          // Try language family match (e.g., zh-HK matches zh-TW)
-          const langPrefix = browserLang.toLowerCase().split('-')[0]
-          const familyMatch = config.locales.find(
-            locale => locale.toLowerCase().startsWith(langPrefix + '-')
-          )
-          if (familyMatch) {
-            targetLocale = familyMatch
-            break
-          }
-          
-          // Try simple language match (e.g., zh matches zh)
-          const simpleMatch = config.locales.find(
-            locale => locale.toLowerCase() === langPrefix
-          )
-          if (simpleMatch) {
-            targetLocale = simpleMatch
+          const match = mapper.findBestMatchingLocale(browserLang)
+          if (match) {
+            targetLocale = match
             break
           }
         }

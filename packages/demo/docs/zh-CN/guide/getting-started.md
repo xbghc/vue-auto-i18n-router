@@ -172,5 +172,5 @@ Please wait while we detect your language preference...
 ## 下一步
 
 - 查看[介绍](./intro)了解工作原理
-- 探索[高级配置](../api/config)选项
-- 参考[部署指南](../guide/deployment)优化生产环境
+- 探索[配置选项](./configuration)了解更多配置
+- 参考[部署指南](./deployment)优化生产环境

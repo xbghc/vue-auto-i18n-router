@@ -20,16 +20,48 @@ const EnhancedTheme: Theme = {
         document.cookie = `vitepress-locale=${locale};path=/;max-age=31536000`
       }
       
-      const extractLocaleFromPath = (path: string): string | null => {
+      /**
+       * Automatically detect the base path from the page
+       * This works reliably without any manual configuration
+       */
+      const detectBasePath = (): string => {
+        // Detect from resource paths - this is the most reliable method
+        // VitePress always includes assets with the correct base path
+        const resources = document.querySelectorAll<HTMLElement>('link[href*="/assets/"], script[src*="/assets/"], link[href*="/vp-icons.css"]')
+        for (const resource of resources) {
+          const url = (resource as HTMLLinkElement).href || (resource as HTMLScriptElement).src
+          if (url) {
+            // Get the pathname part from the full URL
+            const urlObj = new URL(url, window.location.origin)
+            const pathname = urlObj.pathname
+            // Find where /assets/ or /vp-icons.css starts
+            const assetsIndex = pathname.search(/\/(assets\/|vp-icons\.css)/)
+            if (assetsIndex > 0) {
+              // Has base path before assets
+              return pathname.substring(0, assetsIndex + 1)
+            } else if (assetsIndex === 0) {
+              // Assets at root, no base path
+              return '/'
+            }
+          }
+        }
+        
+        // Fallback to root if no resources found (shouldn't happen in practice)
+        return '/'
+      }
+      
+      const extractLocaleFromPath = (path: string, availableLocales?: string[]): string | null => {
         // Extract path segment from URL
         const match = path.match(/^\/([\w-]+)\//)
         if (!match) return null
         
         const pathSegment = match[1]
         
-        // Get locales from VitePress config
-        const siteData = (window as any).__VP_SITE_DATA__
-        const locales = siteData?.locales ? Object.keys(siteData.locales) : []
+        // Get locales - use provided list or try to get from VitePress config
+        const locales = availableLocales || (() => {
+          const siteData = (window as any).__VP_SITE_DATA__
+          return siteData?.locales ? Object.keys(siteData.locales) : []
+        })()
         
         // Check if this path segment is a configured locale
         // VitePress locales object uses the actual path as key
@@ -39,10 +71,13 @@ const EnhancedTheme: Theme = {
         
         // If not found directly, it might be a custom path mapping
         // We need to check if any locale's link matches this path
-        for (const locale of locales) {
-          const localeConfig = siteData.locales[locale]
-          if (localeConfig?.link && localeConfig.link.startsWith(`/${pathSegment}/`)) {
-            return locale
+        const siteData = (window as any).__VP_SITE_DATA__
+        if (siteData?.locales) {
+          for (const locale of locales) {
+            const localeConfig = siteData.locales[locale]
+            if (localeConfig?.link && localeConfig.link.startsWith(`/${pathSegment}/`)) {
+              return locale
+            }
           }
         }
         
@@ -51,8 +86,7 @@ const EnhancedTheme: Theme = {
       
       // Auto-redirect on initial load if needed (for production)
       const currentPath = window.location.pathname
-      const siteData = (window as any).__VP_SITE_DATA__
-      const base = siteData?.base || '/'
+      const base = detectBasePath()
       
       // Remove base from path for locale detection
       const pathWithoutBase = base !== '/' && currentPath.startsWith(base) 
@@ -67,6 +101,7 @@ const EnhancedTheme: Theme = {
       // If no locale in path (e.g., visiting root "/" or "/base/" in production)
       if (!currentLocale && isAtRoot) {
         // Get available locales from VitePress config
+        const siteData = (window as any).__VP_SITE_DATA__
         const locales = siteData?.locales ? Object.keys(siteData.locales) : ['zh', 'en']
         const defaultLocale = locales[0] || 'zh'
         

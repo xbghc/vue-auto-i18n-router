@@ -158,6 +158,12 @@ The demo site uses the library in multiple ways:
 
 - Node.js: ^20.19.0 || >=22.12.0
 
+## Build & Test Automation
+
+- **Pre-commit hook** (via Husky): Automatically runs `pnpm docs:build` before each commit to ensure the documentation builds successfully
+- **GitHub Actions**: Deploy workflow builds and publishes to GitHub Pages on push to main branch
+- **GitHub Pages base path**: Automatically sets base URL to `/vue-auto-i18n-router/` when `GITHUB_ACTIONS` env var is present
+
 ## Known Issues and Solutions
 
 1. **MIME Type Errors in Development:**

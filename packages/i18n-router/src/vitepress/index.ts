@@ -51,12 +51,22 @@ const EnhancedTheme: Theme = {
       
       // Auto-redirect on initial load if needed (for production)
       const currentPath = window.location.pathname
-      const currentLocale = extractLocaleFromPath(currentPath)
+      const siteData = (window as any).__VP_SITE_DATA__
+      const base = siteData?.base || '/'
       
-      // If no locale in path (e.g., visiting root "/" in production)
-      if (!currentLocale && currentPath === '/') {
+      // Remove base from path for locale detection
+      const pathWithoutBase = base !== '/' && currentPath.startsWith(base) 
+        ? currentPath.slice(base.length - 1) // Keep the leading slash
+        : currentPath
+      
+      const currentLocale = extractLocaleFromPath(pathWithoutBase)
+      
+      // Check if we're at the root (with or without base path)
+      const isAtRoot = pathWithoutBase === '/' || pathWithoutBase === ''
+      
+      // If no locale in path (e.g., visiting root "/" or "/base/" in production)
+      if (!currentLocale && isAtRoot) {
         // Get available locales from VitePress config
-        const siteData = (window as any).__VP_SITE_DATA__
         const locales = siteData?.locales ? Object.keys(siteData.locales) : ['zh', 'en']
         const defaultLocale = locales[0] || 'zh'
         
@@ -97,10 +107,12 @@ const EnhancedTheme: Theme = {
         }
         
         // Redirect to locale version
-        // Get base path from site data (includes trailing slash in production)
-        const base = siteData?.base || '/'
         // Construct the correct URL with base path
-        const targetPath = `${base}${targetLocale}/`.replace('//', '/')
+        // Base already includes trailing slash when needed
+        const targetPath = base === '/' 
+          ? `/${targetLocale}/`
+          : `${base}${targetLocale}/`
+        
         // Use window.location for full page reload to ensure proper initialization
         window.location.href = targetPath
         return // Exit early to avoid saving incorrect locale

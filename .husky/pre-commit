@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+# Test VitePress build before committing
+echo "🔍 Running pre-commit checks..."
+echo "📦 Testing VitePress build..."
+
+pnpm docs:build
+
+if [ $? -ne 0 ]; then
+  echo "❌ Build failed! Please fix the errors before committing."
+  echo "💡 Common issues:"
+  echo "   - Dead links in markdown files"
+  echo "   - Missing dependencies"
+  echo "   - Syntax errors in code"
+  exit 1
+fi
+
+echo "✅ All checks passed! Ready to commit."

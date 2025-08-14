@@ -33,10 +33,13 @@
     "dev": "pnpm --filter demo dev",
     "build": "pnpm --filter vitepress-auto-i18n-router build",
     "docs:dev": "pnpm --filter demo docs:dev",
-    "docs:build": "pnpm --filter demo docs:build"
+    "docs:build": "pnpm --filter demo docs:build",
+    "test": "pnpm docs:build",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/node": "^22.16.5",
+    "husky": "^9.1.7",
     "typescript": "~5.8.0"
   }
 }

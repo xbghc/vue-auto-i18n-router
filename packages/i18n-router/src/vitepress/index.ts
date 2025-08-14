@@ -97,8 +97,18 @@ const EnhancedTheme: Theme = {
         }
         
         // Redirect to locale version
-        router.go(`/${targetLocale}/`)
+        // Get base path from site data (includes trailing slash in production)
+        const base = siteData?.base || '/'
+        // Construct the correct URL with base path
+        const targetPath = `${base}${targetLocale}/`.replace('//', '/')
+        // Use window.location for full page reload to ensure proper initialization
+        window.location.href = targetPath
         return // Exit early to avoid saving incorrect locale
+      }
+      
+      // Save initial locale if we have one  
+      if (currentLocale) {
+        saveLocalePreference(currentLocale)
       }
       
       // Use router's onAfterRouteChange hook
@@ -107,11 +117,6 @@ const EnhancedTheme: Theme = {
         if (locale) {
           saveLocalePreference(locale)
         }
-      }
-      
-      // Save initial locale if we have one
-      if (currentLocale) {
-        saveLocalePreference(currentLocale)
       }
     }
   }

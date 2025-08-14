@@ -34,6 +34,7 @@
     "build": "pnpm --filter vitepress-auto-i18n-router build",
     "docs:dev": "pnpm --filter demo docs:dev",
     "docs:build": "pnpm --filter demo docs:build",
+    "docs:preview": "pnpm --filter demo docs:preview",
     "test": "pnpm docs:build",
     "prepare": "husky"
   },

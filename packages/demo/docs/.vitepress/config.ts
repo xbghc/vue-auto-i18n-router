@@ -45,7 +45,8 @@ export default defineConfig({
                 { text: '主题集成', link: '/zh-CN/guide/theme-integration' },
                 { text: '配置选项', link: '/zh-CN/guide/configuration' },
                 { text: 'Composables API', link: '/zh-CN/guide/composables' },
-                { text: '路径映射', link: '/zh-CN/guide/path-mapping' }
+                { text: '路径映射', link: '/zh-CN/guide/path-mapping' },
+                { text: '环境差异', link: '/zh-CN/guide/environments' }
               ]
             },
             {
@@ -77,7 +78,8 @@ export default defineConfig({
                 { text: '主题集成', link: '/zh-CN/guide/theme-integration' },
                 { text: '配置选项', link: '/zh-CN/guide/configuration' },
                 { text: 'Composables API', link: '/zh-CN/guide/composables' },
-                { text: '路径映射', link: '/zh-CN/guide/path-mapping' }
+                { text: '路径映射', link: '/zh-CN/guide/path-mapping' },
+                { text: '环境差异', link: '/zh-CN/guide/environments' }
               ]
             },
             {
@@ -155,7 +157,8 @@ export default defineConfig({
                 { text: 'Theme Integration', link: '/en-US/guide/theme-integration' },
                 { text: 'Configuration', link: '/en-US/guide/configuration' },
                 { text: 'Composables API', link: '/en-US/guide/composables' },
-                { text: 'Path Mapping', link: '/en-US/guide/path-mapping' }
+                { text: 'Path Mapping', link: '/en-US/guide/path-mapping' },
+                { text: 'Environments', link: '/en-US/guide/environments' }
               ]
             },
             {
@@ -187,7 +190,8 @@ export default defineConfig({
                 { text: 'Theme Integration', link: '/en-US/guide/theme-integration' },
                 { text: 'Configuration', link: '/en-US/guide/configuration' },
                 { text: 'Composables API', link: '/en-US/guide/composables' },
-                { text: 'Path Mapping', link: '/en-US/guide/path-mapping' }
+                { text: 'Path Mapping', link: '/en-US/guide/path-mapping' },
+                { text: 'Environments', link: '/en-US/guide/environments' }
               ]
             },
             {

@@ -5,8 +5,12 @@ export default defineConfig({
   title: 'VitePress Auto i18n Router',
   description: 'Automatic language detection and routing for VitePress static sites',
 
-  // Using root path for testing
-  // base: '/',  // Commented out - testing without base configuration
+  // Base configuration - IMPORTANT for GitHub Pages
+  // This sets the base URL path for all assets and links in your site
+  // - Local development: '/' (site runs at http://localhost:5173/)
+  // - GitHub Pages: '/repository-name/' (site runs at https://username.github.io/repository-name/)
+  // Without this, all CSS/JS assets and navigation links will 404 on GitHub Pages
+  base: process.env.GITHUB_ACTIONS ? '/vue-auto-i18n-router/' : '/',
 
   // Locales configuration for VitePress native language switcher
   locales: {

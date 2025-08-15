@@ -5,8 +5,8 @@ export default defineConfig({
   title: 'VitePress Auto i18n Router',
   description: 'Automatic language detection and routing for VitePress static sites',
 
-  // Base path is automatically detected by the i18n-router plugin
-  // No manual base configuration needed - the plugin will detect it from the deployed site
+  // Using root path for testing
+  // base: '/',  // Commented out - testing without base configuration
 
   // Locales configuration for VitePress native language switcher
   locales: {
